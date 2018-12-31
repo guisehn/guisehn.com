@@ -35,7 +35,9 @@ app.use('/foo', require('./routes/foo'))
 
 // hypothetical error handling middleware
 app.use((err, req, res, next) => {
-  res.status(500).end(`Error happened at ${moment().format('h:mm a')}!\n\n${err.stack}`)
+  res
+    .status(500)
+    .end(`Error happened at ${moment().format('h:mm a')}!\n\n${err.stack}`)
 })
 
 app.listen(3000)
