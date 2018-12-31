@@ -46,15 +46,13 @@ module.exports = app
 
 When opening `/foo/error-route` through the browser, Express calls the route defined in **routes/foo.js** which triggers an error. This error is then passed by Express to the error handling middleware defined on **server.js**, and it then prints the error stack trace along with the current time.
 
+![Screenshot of error page opened through the browser](/images/posts/2018-12-28-sinon-express-request-never-finishes/error-screenshot.png)
+
 In a real world scenario, this error middleware could be used to format the error properly to the user, or return a generic error message and send the error to an external tracking platform like [Sentry](https://sentry.io) in case it's unexpected.
 
-As I said, everything worked when accessing the URL through the browser, but the request would never terminate for this endpoint when called inside the test suite, causing a timeout in my test case. After digging through the Express source code and debugging it, I found that it was stopping in a `setImmediate` call at `node_modules/express/lib/router/index.js`.
+As I said, everything worked when accessing the URL through the browser, but the request would never terminate for this endpoint when called inside the test suite, causing a timeout in my test case. 
 
-By using `console.log` to see the inners of the `setImmediate` definition, it looked like it was [monkey patched](https://en.wikipedia.org/wiki/Monkey_patch) by some library. A-ha!
-
-It turns out that [Sinon](https://sinonjs.org/) -- the package used in the project I work for mocking data for the automated tests -- was replacing this function when calling `sinon.useFakeTimers`, a tool used to manipulate the system time for specific tests.
-
-Below there's an example of a failing test. It basically calls the example endpoint using [supertest](https://github.com/visionmedia/supertest), then checks if it responds with 500 and also if the time is present in the response (the middlware defined on `server.js` prints it).
+Below there's an example of a failing test. It basically calls the example endpoint using [supertest](https://github.com/visionmedia/supertest), then checks if it responds with 500 and also if the time is present in the response (the middlware defined on `server.js` prints it). In order to check if the time present in the response is correct, we use [Sinon](https://sinonjs.org/) to manipulate the system time.
 
 **test/routes/foo.js**
 ```js
@@ -104,6 +102,10 @@ describe('foo routes', () => {
      <span class="red">Error: Timeout of 5000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/path/to/project/test/routes/foo.js)</span>
 </pre>
 </div>
+
+After digging through the Express source code and debugging it, I found that it was stopping in a `setImmediate` call at `node_modules/express/lib/router/index.js`. By using `console.log` to see the inners of the `setImmediate` definition, it looked like it was [monkey patched](https://en.wikipedia.org/wiki/Monkey_patch) by some library. A-ha!
+
+It turns out that Sinon -- the package used in the project I work for mocking data for the automated tests -- was replacing this function when calling `sinon.useFakeTimers`, a tool used to manipulate the system time for specific tests.
 
 In order to fix it, we need to tell Sinon not to replace the `setImmediate` function by manually telling which functions should be faked, as explained in [their documentation](https://sinonjs.org/releases/v7.2.2/fake-timers/). In this case, we only need the `Date` function, so we replace the clock definition part with:
 
