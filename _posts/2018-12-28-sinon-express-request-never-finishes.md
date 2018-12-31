@@ -85,6 +85,24 @@ describe('foo routes', () => {
 })
 ```
 
+<div class="terminal">
+  <pre><span class="arrow-success">➜</span> <span class="cwd">test</span> yarn test
+<span class="dark-gray">$ NODE_ENV=test mocha -b --exit</span>
+
+  /foo routes
+    GET /foo/error-route
+      <span class="red">1) should respond with http 500 containing the current time</span>
+
+  <span class="green">0 passing</span> <span class="dark-gray">(5s)</span>
+  <span class="red">1 failing</span>
+
+  1) /foo routes
+       GET /foo/error-route
+         should respond with http 500 containing the current time:
+     <span class="red">Error: Timeout of 5000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/path/to/project/test/routes/foo.js)</span>
+</pre>
+</div>
+
 In order to fix it, we need to tell Sinon not to replace the `setImmediate` function by manually telling which functions should be faked, as explained in [their documentation](https://sinonjs.org/releases/v7.2.2/fake-timers/). In this case, we only need the `Date` function, so we replace the clock definition part with:
 
 ```js
@@ -103,5 +121,16 @@ clock = sinon.useFakeTimers(+moment('2018-10-10 15:05:00'), 'Date')
 ```
 
 After doing this, Express stops hanging and the test runs successfuly.
+
+<div class="terminal">
+  <pre><span class="arrow-success">➜</span> <span class="cwd">test</span> yarn test
+<span class="dark-gray">$ NODE_ENV=test mocha -b --exit</span>
+
+  /foo routes
+    GET /foo/error-route
+      <span class="green">✓</span> should respond with http 500 containing the current time
+
+  <span class="green">1 passing</span> <span class="dark-gray">(47ms)</span></pre>
+</div>
 
 It turns out [there are developers reporting](https://github.com/sinonjs/sinon/issues/960) that `sinon.useFakeTimers` may also cause unexpected effects on other well-known libraries, so if you see your code not finishing to run when using it, be aware that it may be Sinon overwriting global functions.

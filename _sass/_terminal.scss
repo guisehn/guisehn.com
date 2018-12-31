@@ -1,0 +1,49 @@
+.terminal {
+  background: #151718;
+  color: #cfd2d1;
+  font-family:'Bitstream Vera Sans Mono','Courier', monospace;
+  font-size: 14px;
+  line-height: 130%;
+  padding: 20px;
+  padding-bottom: 25px;
+  border-radius: 5px;
+
+  div.top {
+    width: 55px;
+    height: 14px;
+    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDU0IDE0Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEgMSkiPjxjaXJjbGUgY3g9IjYiIGN5PSI2IiByPSI2IiBmaWxsPSIjRkY1RjU2IiBzdHJva2U9IiNFMDQ0M0UiIHN0cm9rZS13aWR0aD0iLjUiPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjI2IiBjeT0iNiIgcj0iNiIgZmlsbD0iI0ZGQkQyRSIgc3Ryb2tlPSIjREVBMTIzIiBzdHJva2Utd2lkdGg9Ii41Ij48L2NpcmNsZT48Y2lyY2xlIGN4PSI0NiIgY3k9IjYiIHI9IjYiIGZpbGw9IiMyN0M5M0YiIHN0cm9rZT0iIzFBQUIyOSIgc3Ryb2tlLXdpZHRoPSIuNSI+PC9jaXJjbGU+PC9nPjwvc3ZnPg==) no-repeat;
+    margin-bottom: 14px;
+  }
+
+  pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+
+    .arrow-error {
+      color: #fd6f6b;
+    }
+
+    .arrow-success {
+      color: #67f86f;
+    }
+
+    .cwd {
+      color: #68fdfe;
+    }
+
+    .dark-gray {
+      color: #5d5d5d;
+    }
+
+    .red {
+      color: #c71e14;
+    }
+
+    .green {
+      color: #1bba25;
+    }
+  }
+}
