@@ -9,7 +9,7 @@ When doing the request through the browser to a route that caused an error, I wo
 
 After finding the solution, I thought this could be a good first post for this blog. I hope it may help people who face the same problem. :)
 
-As I can't post the real code here, I made a [MCV example](https://stackoverflow.com/help/mcve) to show the issue and how it can be solved. Here's a simple Express server with a route that causes an error, which is catched by an error handling middleware:
+As I can't post the real code here, I made a [MCV example](https://stackoverflow.com/help/mcve) to show the issue and how it can be solved. Here's a simple Express server with a route that causes an error, which is caught by an error handling middleware:
 
 **routes/foo.js**
 ```js
