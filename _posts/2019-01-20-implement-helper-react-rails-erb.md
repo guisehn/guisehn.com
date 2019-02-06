@@ -14,9 +14,7 @@ Since [webpacker](https://github.com/rails/webpacker) was already present in the
 Now, the next step was to render my React component on the interactive screen. There is a gem called [React-Rails](https://github.com/reactjs/react-rails) which allows us to include the component inside your ERB template by calling a helper function like:
 
 ```erb
-<%= react_
-
-'Hello', name: 'World') %>
+<%= react_component('Hello', name: 'World') %>
 ```
 
 ...where `Hello` is the component name and `{name: 'World'}` is the props object passed to the component. Under the hood, this will make the server render a `div` tag with the component data (name and props) inside, and React-Rails will search for these tags on the client to mount the components in place when the DOM is ready.
