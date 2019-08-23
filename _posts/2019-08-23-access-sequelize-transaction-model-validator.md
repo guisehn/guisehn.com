@@ -28,7 +28,7 @@ Purchase.init({
 })
 ```
 
-In the example above, we're not passing any transaction option to the `getCustomer` and `getProduct` method calls. If you save a `Purchase` instance using a [transaction](https://sequelize.org/master/manual/transactions.html), these validation queries will end up running outside of your transaction connection and will most likely cause [isolation issues](https://en.wikipedia.org/wiki/Isolation_(database_systems)).
+In the example above, we're not passing any transaction option to the `getCustomer` and `getProduct` method calls. If we save a `Purchase` instance using a [transaction](https://sequelize.org/master/manual/transactions.html), these validation queries will end up running outside of your transaction connection and will most likely cause [isolation issues](https://en.wikipedia.org/wiki/Isolation_(database_systems)).
 
 Take this example, where first we create the customer and then make a purchase inside a transaction:
 
@@ -56,7 +56,7 @@ ROLLBACK;
 </pre>
 </div>
 
-As you can see, both the product and customer queries of the validation are running outside the transaction, and since the transaction hasn't been commited yet, it hasn't been able to find the customer inside the validator, triggering a TypeError when trying to access the `age` property.
+As you can see, both the product and customer queries of the validation are running outside the transaction, and because the transaction hasn't been commited yet, it hasn't been able to find the customer inside the validator, triggering a TypeError when trying to access the `age` property.
 
 But how to pass the transaction to your queries in a case like that?
 
