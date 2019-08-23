@@ -3,7 +3,9 @@ layout: post
 title: Accessing Sequelize transaction in model validator
 ---
 
-There are some cases where you might want to implement a validation method for your Sequelize model that queries other rows in your database to check business rules. Take the example below.
+There are some cases where you might want to implement a validation method for your Sequelize model that queries other rows in your database to check business rules.
+
+See the example below:
 
 ```js
 Purchase.init({
@@ -26,7 +28,7 @@ Purchase.init({
 })
 ```
 
-In the example above, we're not passing any transaction option to the `getCustomer` and `getProduct` method calls. If you save a `Purchase` instance using a [database transaction](https://sequelize.org/master/manual/transactions.html), these validations queries will end up running outside of your transaction connection, which will most likely cause [isolation issues](https://en.wikipedia.org/wiki/Isolation_(database_systems)).
+In the example above, we're not passing any transaction option to the `getCustomer` and `getProduct` method calls. If you save a `Purchase` instance using a [transaction](https://sequelize.org/master/manual/transactions.html), these validation queries will end up running outside of your transaction connection and will most likely cause [isolation issues](https://en.wikipedia.org/wiki/Isolation_(database_systems)).
 
 Take this example, where first we create the customer and then make a purchase inside a transaction:
 
