@@ -1,0 +1,15 @@
+.markdown {
+  @apply leading-relaxed;
+
+  p {
+    @apply mb-4;
+  }
+
+  .astro-code {
+    @apply text-xs leading-normal rounded-xl mb-6 p-6;
+  }
+
+  code:not(.terminal-code):not(.astro-code code) {
+    @apply text-sm bg-gray-200 text-pink-700 rounded-lg p-1;
+  }
+}

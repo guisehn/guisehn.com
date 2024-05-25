@@ -86,23 +86,24 @@ describe('foo routes', () => {
 })
 ```
 
-<div class="terminal">
-  <pre><span class="arrow-success">➜</span> <span class="cwd">test</span> yarn test
-<span class="dark-gray">$ NODE_ENV=test mocha -b --exit</span>
+import Terminal from '../../components/Terminal.astro';
+
+<Terminal content={`
+<text-lime-300>➜</text-lime-300> <text-cyan-300>test</text-cyan-300> yarn test
+<text-gray-400>$ NODE_ENV=test mocha -b --exit</text-gray-400>
 
   /foo routes
     GET /foo/error-route
-      <span class="red">1) should respond with http 500 containing the current time</span>
+      <text-red-500>1) should respond with http 500 containing the current time</text-red-500>
 
-  <span class="green">0 passing</span> <span class="dark-gray">(5s)</span>
-  <span class="red">1 failing</span>
+  <text-green-400>0 passing</text-green-400> (5s)
+  <text-red-500>1 failing</text-red-500>
 
   1) /foo routes
        GET /foo/error-route
          should respond with http 500 containing the current time:
-     <span class="red">Error: Timeout of 5000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/path/to/project/test/routes/foo.js)</span>
-</pre>
-</div>
+     <text-red-500>Error: Timeout of 5000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/path/to/project/test/routes/foo.js)</text-red-500>
+`} />
 
 After digging through the Express source code and debugging it, I found that it was stopping in a `setImmediate` call at `node_modules/express/lib/router/index.js`. By using `console.log` to see the inners of the `setImmediate` definition, it looked like it was [monkey patched](https://en.wikipedia.org/wiki/Monkey_patch) by some library. A-ha!
 
@@ -127,15 +128,15 @@ clock = sinon.useFakeTimers(+moment('2018-10-10 15:05:00'), 'Date')
 
 After doing this, Express stops hanging and the test runs successfuly.
 
-<div class="terminal">
-  <pre><span class="arrow-success">➜</span> <span class="cwd">test</span> yarn test
-<span class="dark-gray">$ NODE_ENV=test mocha -b --exit</span>
+<Terminal content={`
+<text-lime-300>➜</text-lime-300> <text-cyan-300>test</text-cyan-300> yarn test
+<text-gray-400>$ NODE_ENV=test mocha -b --exit</text-gray-400>
 
   /foo routes
     GET /foo/error-route
-      <span class="green">✓</span> should respond with http 500 containing the current time
+      <text-green-400>✓</text-green-400> should respond with http 500 containing the current time
 
-  <span class="green">1 passing</span> <span class="dark-gray">(47ms)</span></pre>
-</div>
+  <text-green-400>1 passing</text-green-400> (47ms)
+`} />
 
 It turns out [there are developers reporting](https://github.com/sinonjs/sinon/issues/960) that `sinon.useFakeTimers` may also cause unexpected effects on other well-known libraries, so if you see your code not finishing to run when using it, be aware that it may be Sinon overwriting global functions.
