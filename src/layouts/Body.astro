@@ -1,0 +1,14 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<body class="bg-stone-100 pb-16">
+  <Header />
+
+  <main class="container mx-auto max-w-xl">
+    <slot />
+  </main>
+
+  <Footer />
+</body>

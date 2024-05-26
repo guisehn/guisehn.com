@@ -1,7 +1,6 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import Body from "../layouts/Body.astro";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 
@@ -13,28 +12,29 @@ const posts = (await getCollection("blog")).sort(
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title="Gui Sehn" />
+    <BaseHead title="Guilherme Sehn" />
   </head>
-  <body>
-    <Header />
+  <Body>
     <main>
       <section>
-        <ul>
+        <ul class="flex flex-col gap-8">
           {
             posts.map((post) => (
               <li>
-                <a href={`/${post.slug}/`}>
-                  <h4 class="title">{post.data.title}</h4>
-                  <p class="date">
-                    <FormattedDate date={post.data.pubDate} />
-                  </p>
-                </a>
+                <time class="text-sm text-gray-500 block mb-1">
+                  <FormattedDate date={post.data.pubDate} />
+                </time>
+                <h4 class="mb-2 font-medium">
+                  <a href={`/${post.slug}/`} class=" hover:underline">
+                    {post.data.title}
+                  </a>
+                </h4>
+                <p class="text-sm text-gray-700">{post.data.description}</p>
               </li>
             ))
           }
         </ul>
       </section>
     </main>
-    <Footer />
-  </body>
+  </Body>
 </html>
