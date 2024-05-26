@@ -21,15 +21,24 @@ const posts = (await getCollection("blog")).sort(
           {
             posts.map((post) => (
               <li>
-                <time class="text-sm text-gray-500 block mb-1">
+                <time
+                  class="text-sm text-gray-500 dark:text-gray-400 block mb-1"
+                  transition:name={`date-${post.slug}`}
+                >
                   <FormattedDate date={post.data.pubDate} />
                 </time>
                 <h4 class="mb-2 font-medium">
-                  <a href={`/${post.slug}/`} class=" hover:underline">
+                  <a
+                    href={`/${post.slug}/`}
+                    class="hover:underline"
+                    transition:name={`title-${post.slug}`}
+                  >
                     {post.data.title}
                   </a>
                 </h4>
-                <p class="text-sm text-gray-700">{post.data.description}</p>
+                <p class="text-sm text-gray-700 dark:text-gray-400">
+                  {post.data.description}
+                </p>
               </li>
             ))
           }

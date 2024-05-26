@@ -1,0 +1,17 @@
+<script is:inline>
+  const systemDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
+
+  window.updateDarkMode = () => {
+    document.body.classList.toggle("dark", isDarkMode());
+  };
+
+  window.isDarkMode = () => {
+    const colorScheme = localStorage.getItem("color_scheme");
+    const isSystem = !colorScheme || colorScheme === "system";
+    return colorScheme === "dark" || (isSystem && systemDarkMode.matches);
+  };
+
+  updateDarkMode();
+  systemDarkMode.addEventListener("change", () => updateDarkMode());
+  document.addEventListener("astro:page-load", () => updateDarkMode());
+</script>

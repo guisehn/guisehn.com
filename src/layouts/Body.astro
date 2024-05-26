@@ -1,10 +1,17 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import DarkMode from "../components/DarkMode.astro";
+import DarkModeSwitch from "../components/DarkModeSwitch.tsx";
 ---
 
-<body class="bg-stone-100 pb-16">
+<body class="bg-stone-100 dark:bg-[#141236] dark:text-white pb-16">
+  <DarkMode />
   <Header />
+
+  <div class="fixed bottom-4 right-4">
+    <DarkModeSwitch client:only />
+  </div>
 
   <main class="container mx-auto max-w-xl px-8 md:px-0">
     <slot />
