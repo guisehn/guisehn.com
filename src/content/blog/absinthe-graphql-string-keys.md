@@ -180,7 +180,7 @@ end
 
 ## 3. At field level
 
-Absinthe allows calling middlewares at the field level, so in order to get string keys to work for fields, you just need to pass our custom middleware `MapGetWithIndifferentAccess` to it:
+Absinthe allows calling middlewares at the field level, so in order to get string keys to work for fields, we just need to pass our custom middleware `MapGetWithIndifferentAccess` to it:
 
 ```elixir
 object :person do
@@ -219,7 +219,7 @@ object :person do
 end
 ```
 
-Or you can also go hardcode with a custom macro:
+Or you can also go hardcore with a custom macro:
 
 ```elixir
 defmodule MyApp.Middleware.MapGetWithIndifferentAccess do
@@ -247,7 +247,7 @@ object :person do
 end
 ```
 
-In this case, I personally think the helper function is already readable enough and I'd avoid defining a macro in this case, ([they can easily get out of hand](https://hexdocs.pm/elixir/macro-anti-patterns.html#unnecessary-macros)).
+In this case, I personally think the helper function is already readable enough and I'd avoid defining a macro in this case–([they can easily get out of hand](https://hexdocs.pm/elixir/macro-anti-patterns.html#unnecessary-macros)).
 
 # Conclusion
 
