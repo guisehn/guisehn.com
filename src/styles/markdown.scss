@@ -60,4 +60,13 @@
   ul {
     @apply list-disc ml-5 mb-6;
   }
+
+  a {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
