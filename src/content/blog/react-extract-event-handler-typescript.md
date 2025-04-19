@@ -4,7 +4,8 @@ description: How to preserve correct TypeScript types when extracting event hand
 pubDate: "Apr 17 2025"
 ---
 
-When an event handler in React starts getting large, it’s natural to extract it into its own function. But when we do that, we lose the benefit of automatic type inference.
+When an event handler in React starts getting large, it's natural to extract it into its own function.
+But when we do that, we lose the benefit of automatic type inference.
 
 Before:
 
@@ -93,10 +94,10 @@ Still, that's a bit verbose. Wouldn'it be nice to write this instead?
 const handleClick: Props<typeof Button, "onClick"> = ...
 ```
 
-You can, with a small utility type:
+You can, with an utility type:
 
 ```tsx
-type Props<
+type Prop<
   Component extends ComponentType,
   Prop extends keyof React.ComponentProps<Component>
 > = React.ComponentProps<Component>[Prop];
@@ -107,10 +108,11 @@ type ComponentType = any extends React.ComponentProps<infer R> ? R : never;
 ## Final code
 
 ```tsx
+import { type Prop } from "@/type-utils";
 import { Button } from "@/components/ui/button";
 
 function MyComponent() {
-  const handleClick: Props<typeof Button, "onClick"> = (event) => {
+  const handleClick: Prop<typeof Button, "onClick"> = (event) => {
     // event is inferred: `React.MouseEvent<HTMLAnchorElement, MouseEvent>`
     event.preventDefault();
     doSomething();
@@ -120,4 +122,4 @@ function MyComponent() {
 }
 ```
 
-Now you get fully inferred types, clean separation of logic, and a more maintainable codebase.
+This will also automatically infer the expected return value, and multiple arguments if it's the case.
