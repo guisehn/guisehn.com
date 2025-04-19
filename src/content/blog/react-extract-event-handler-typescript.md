@@ -99,8 +99,8 @@ You can, with an utility type:
 ```tsx
 type Prop<
   Component extends ComponentType,
-  Prop extends keyof React.ComponentProps<Component>
-> = React.ComponentProps<Component>[Prop];
+  PropKey extends keyof React.ComponentProps<Component>
+> = React.ComponentProps<Component>[PropKey];
 
 type ComponentType = any extends React.ComponentProps<infer R> ? R : never;
 ```
