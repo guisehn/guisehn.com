@@ -16,7 +16,7 @@ function MyComponent() {
   return (
     <Button
       onClick={(event) => {
-        // `event` is automatically typed as `React.MouseEvent<HTMLAnchorElement, MouseEvent>` here.
+        // `event` is a `React.MouseEvent<HTMLAnchorElement, MouseEvent>` here.
         event.preventDefault();
         doSomething();
       }}
