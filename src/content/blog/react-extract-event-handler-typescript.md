@@ -16,7 +16,7 @@ function MyComponent() {
   return (
     <Button
       onClick={(event) => {
-        // `event` is a `React.MouseEvent<HTMLAnchorElement, MouseEvent>` here.
+        // ✅ `event` is a `React.MouseEvent<HTMLAnchorElement, MouseEvent>` here.
         event.preventDefault();
         doSomething();
       }}
@@ -34,7 +34,7 @@ import { Button } from "@/components/ui/button";
 
 function MyComponent() {
   const handleClick = (event) => {
-    // `event` is of type `any` :(
+    // ❌ `event` is of type `any` :(
     event.preventDefault();
     doSomething();
   };
@@ -79,7 +79,7 @@ function MyComponent() {
   const handleClick: React.ComponentProps<typeof Button>["onClick"] = (
     event
   ) => {
-    // event is correctly inferred as `React.MouseEvent<HTMLAnchorElement, MouseEvent>`
+    // ✅ `event` is inferred: `React.MouseEvent<HTMLAnchorElement, MouseEvent>`
     event.preventDefault();
     doSomething();
   };
@@ -113,7 +113,7 @@ import { Button } from "@/components/ui/button";
 
 function MyComponent() {
   const handleClick: Prop<typeof Button, "onClick"> = (event) => {
-    // event is inferred: `React.MouseEvent<HTMLAnchorElement, MouseEvent>`
+    // ✅ `event` is inferred: `React.MouseEvent<HTMLAnchorElement, MouseEvent>`
     event.preventDefault();
     doSomething();
   };
