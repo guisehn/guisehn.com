@@ -13,7 +13,12 @@
     @apply text-sm bg-gray-200 dark:bg-white/10 text-pink-700 dark:text-pink-200 rounded-lg p-1;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-bold mt-8 mb-2;
   }
 
@@ -48,7 +53,8 @@
   table {
     @apply w-full mb-6;
 
-    th, td {
+    th,
+    td {
       @apply border-b border-gray-300 p-2 text-left;
     }
   }
@@ -68,5 +74,9 @@
     &:hover {
       text-decoration: none;
     }
+  }
+
+  hr {
+    @apply mb-6 border-gray-400 dark:border-gray-200;
   }
 }
