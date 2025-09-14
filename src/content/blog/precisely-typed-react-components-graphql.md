@@ -12,7 +12,7 @@ This post shows how to colocate GraphQL fragments with components in React, extr
 
 It's common to type components using the entire GraphQL type, like this:
 
-```gql
+```ts
 import { Product } from '@lib/graphql/codegen/graphql';
 
 type ProductCardProps = {
