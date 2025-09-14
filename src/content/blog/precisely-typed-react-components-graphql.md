@@ -22,9 +22,9 @@ type ProductCardProps = {
 
 This works, but it creates two issues:
 
-1. When testing or mocking, you need to provide all fields of `Product` - even the ones the component doesn't use.
+1. The page that renders the component often queries selecting only a subset of fields of `Product`. Once you pass the product to your component, there will be a type mismatch because the component expects all fields, so you’re forced to cast with `as Product`. This loses type safety: if you forgot to select a field that the component needs, TypeScript won't catch it.
 
-2. In real queries, the page often selects only some fields of `Product`. That creates a type mismatch, so you’re forced to cast with `as Product`, losing type safety.
+2. When testing or mocking, you need to provide all fields of `Product` - even the ones the component doesn't use.
 
 What we really want is for each component to declare its own data contract.
 
@@ -147,7 +147,7 @@ export function ProductListPage() {
 }
 ```
 
-Here's the magic: the `ProductCard` expects a `ProductCardProduct`. The query guarantees that each `p` is exactly that type, because it spread the same fragment. The compiler enforces this contract end-to-end - from the GraphQL schema, through the query, down to the component's props.
+Here's the magic: the `ProductCard` expects a `ProductCardProduct`. The query guarantees that each `p` is exactly that type, because it spreads the same fragment. The compiler enforces this contract end-to-end - from the GraphQL schema, through the query, down to the component's props.
 
 One important note is that using the fragment on the `products` query is not even required, as long as you select at least the same fields that the fragment has. The types are enforced at the field level, not fragment level. So you could query `products { id name url availability price }` and it would work the same.
 
@@ -159,7 +159,19 @@ If you forget to select any field on the query, TypeScript will complain, e.g. i
 
 This pattern gives you very practical advantages:
 
-### 1. Better testing and Storybook ergonomics
+### 1. Avoiding type mismatches in real queries
+
+Most page queries don't select **all** fields of an entity. If your component's props are typed as the entire `Product`, you'll often end up with a type mismatch and resort to unsafe casts:
+
+```tsx
+<ProductCard product={p as Product} /> // 👎 unsafe
+```
+
+In that case, if we forget to select a field in our query that the component needs, TypeScript won't catch it and we'll only know at runtime.
+
+With the fragment approach, you never need to cast - the types line up automatically.
+
+### 2. Better testing and Storybook ergonomics
 
 Since your component only requires the fields in its fragment, you can build test objects or Storybook mocks with just those fields. No need to provide irrelevant `Product` fields.
 
@@ -176,18 +188,6 @@ render(
   />
 );
 ```
-
-### 2. Avoiding type mismatches in real queries
-
-Most page queries don't select **all** fields of an entity. If your component's props are typed as the entire `Product`, you'll often end up with a type mismatch and resort to unsafe casts:
-
-```tsx
-<ProductCard product={p as Product} /> // 👎 unsafe
-```
-
-When using a cast, if we forget to select a field of the product in my page query, TypeScript won't catch it and we'll only know at runtime.
-
-With fragments, you never need to cast - the types line up automatically.
 
 ### 3. Clearer component contracts
 
