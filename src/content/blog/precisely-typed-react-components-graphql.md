@@ -1,6 +1,6 @@
 ---
 title: Precisely Typed React Components with GraphQL Fragments
-description: Learn how to achieve end-to-end type safety in React by colocating GraphQL fragments with components, using Apollo Client, GraphQL Code Generator, and TypeScript.
+description: If your team uses GraphQL and TypeScript, you can take advantage of code generation to colocate fragments with React components, achieving type safety all the way from the page query down to the component props, without over- or under-fetching.
 pubDate: "Sep 13 2025"
 ---
 
